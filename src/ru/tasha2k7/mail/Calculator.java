@@ -5,6 +5,8 @@ import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Created by Wolfsjunge on 10.09.2016.
@@ -134,14 +136,6 @@ public class Calculator {
         panel.add(btnEnter, bag);
 
         //действия
-     //   display.addKeyListener(new KeyAdapter() {
-     //       @Override
-     //       public void keyPressed(KeyEvent e) {
-      //          super.keyPressed(e);
-      //              display.setText(display.getText() + String.valueOf(e.getKeyChar()));
-       //     }
-       // });
-
         btn1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -254,6 +248,17 @@ public class Calculator {
         btnMult.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                firstnumber = Double.parseDouble(display.getText());
+                display.setText("");
+                operations = "*";
+                display.requestFocus();
+            }
+        });
+
+        btnMult.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
                 firstnumber = Double.parseDouble(display.getText());
                 display.setText("");
                 operations = "*";
