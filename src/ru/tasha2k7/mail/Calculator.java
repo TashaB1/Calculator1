@@ -5,15 +5,16 @@ import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 /**
  * Created by Wolfsjunge on 10.09.2016.
  */
 public class Calculator {
+    double firstnumber, doublenumber, result;
+    String operations,answer;
 
     public Calculator(){
+
         // Создание окна
         JFrame panel = new JFrame("Calculator");
         panel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,7 +24,6 @@ public class Calculator {
 
         //GridBagConstraints(int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty,
         // int anchor, int fill, Insets insets, int ipadx, int ipady)
-
 
         bag.fill = GridBagConstraints.BOTH;  // максимальная ширина и высота
         bag.insets = new Insets(2, 2, 2, 2);  // отступы
@@ -39,29 +39,29 @@ public class Calculator {
         bag.gridy = 0;
         panel.add(display, bag);
 
-       // магия начинается тут
+       // фильт ввода в JTextField
         ((AbstractDocument) display.getDocument()).setDocumentFilter(new Filter());
 
         bag.gridwidth = 1;
-        JButton btnSpace = new JButton("←");
+        JButton btnBackSpace = new JButton("←");
         bag.gridx = 0;
         bag.gridy = 1;
-        panel.add(btnSpace, bag);
+        panel.add(btnBackSpace, bag);
 
-        JButton btnDel = new JButton("/");
+        JButton btnDiv = new JButton("/");
         bag.gridx = 1;
         bag.gridy = 1;
-        panel.add(btnDel, bag);
+        panel.add(btnDiv, bag);
 
-        JButton btnUmn = new JButton("*");
+        JButton btnMult = new JButton("*");
         bag.gridx = 2;
         bag.gridy = 1;
-        panel.add(btnUmn, bag);
+        panel.add(btnMult, bag);
 
-        JButton btnMinus = new JButton("-");
+        JButton btnSub = new JButton("-");
         bag.gridx = 3;
         bag.gridy = 1;
-        panel.add(btnMinus, bag);
+        panel.add(btnSub, bag);
 
         JButton btn7 = new JButton("7");
         bag.gridx = 0;
@@ -93,11 +93,11 @@ public class Calculator {
         bag.gridy = 3;
         panel.add(btn6, bag);
 
-        JButton btnPlus = new JButton("+");
+        JButton btnAdd = new JButton("+");
         bag.gridy = 2;       // выравнять компонент по 1 строке
         bag.gridheight = 2; // и 2 строке
         bag.gridx = 3;       // и 3 столбец
-        panel.add(btnPlus, bag);
+        panel.add(btnAdd, bag);
 
         bag.gridheight = 1; // и 2 строке
         JButton btn1 = new JButton("1");
@@ -134,19 +134,20 @@ public class Calculator {
         panel.add(btnEnter, bag);
 
         //действия
-        display.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
-                    display.setText(display.getText() + String.valueOf(e.getKeyChar()));
-            }
-        });
+     //   display.addKeyListener(new KeyAdapter() {
+     //       @Override
+     //       public void keyPressed(KeyEvent e) {
+      //          super.keyPressed(e);
+      //              display.setText(display.getText() + String.valueOf(e.getKeyChar()));
+       //     }
+       // });
 
         btn1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String EnterNumber = display.getText() + btn1.getText();
                 display.setText(EnterNumber);
+                display.requestFocus();
             }
         });
 
@@ -155,6 +156,7 @@ public class Calculator {
             public void actionPerformed(ActionEvent e) {
                 String EnterNumber = display.getText() + btn2.getText();
                 display.setText(EnterNumber);
+                display.requestFocus();
             }
         });
 
@@ -163,6 +165,7 @@ public class Calculator {
             public void actionPerformed(ActionEvent e) {
                 String EnterNumber = display.getText() + btn3.getText();
                 display.setText(EnterNumber);
+                display.requestFocus();
             }
         });
 
@@ -171,6 +174,7 @@ public class Calculator {
             public void actionPerformed(ActionEvent e) {
                 String EnterNumber = display.getText() + btn4.getText();
                 display.setText(EnterNumber);
+                display.requestFocus();
             }
         });
 
@@ -179,6 +183,7 @@ public class Calculator {
             public void actionPerformed(ActionEvent e) {
                 String EnterNumber = display.getText() + btn5.getText();
                 display.setText(EnterNumber);
+                display.requestFocus();
             }
         });
         btn6.addActionListener(new ActionListener() {
@@ -186,6 +191,7 @@ public class Calculator {
             public void actionPerformed(ActionEvent e) {
                 String EnterNumber = display.getText() + btn6.getText();
                 display.setText(EnterNumber);
+                display.requestFocus();
             }
         });
 
@@ -194,6 +200,7 @@ public class Calculator {
             public void actionPerformed(ActionEvent e) {
                 String EnterNumber = display.getText() + btn7.getText();
                 display.setText(EnterNumber);
+                display.requestFocus();
             }
         });
 
@@ -202,6 +209,7 @@ public class Calculator {
             public void actionPerformed(ActionEvent e) {
                 String EnterNumber = display.getText() + btn8.getText();
                 display.setText(EnterNumber);
+                display.requestFocus();
             }
         });
 
@@ -210,6 +218,71 @@ public class Calculator {
             public void actionPerformed(ActionEvent e) {
                 String EnterNumber = display.getText() + btn9.getText();
                 display.setText(EnterNumber);
+                display.requestFocus();
+            }
+        });
+
+        btn0.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String EnterNumber = display.getText() + btn0.getText();
+                display.setText(EnterNumber);
+                display.requestFocus();
+            }
+        });
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                firstnumber = Double.parseDouble(display.getText());
+                display.setText("");
+                operations = "+";
+                display.requestFocus();
+            }
+        });
+
+        btnSub.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                firstnumber = Double.parseDouble(display.getText());
+                display.setText("");
+                operations = "-";
+                display.requestFocus();
+            }
+        });
+
+        btnMult.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                firstnumber = Double.parseDouble(display.getText());
+                display.setText("");
+                operations = "*";
+                display.requestFocus();
+            }
+        });
+
+        btnDiv.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                firstnumber = Double.parseDouble(display.getText());
+                display.setText("");
+                operations = "/";
+                display.requestFocus();
+            }
+        });
+
+        btnBackSpace.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String backspace = null;
+                if (display.getText().length() >0){
+                    StringBuilder str = new StringBuilder(display.getText());
+                    str.deleteCharAt(display.getText().length()-1);
+                    backspace = str.toString();
+                    display.setText(backspace);
+                }
+                display.requestFocus();
             }
         });
 

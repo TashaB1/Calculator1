@@ -3,7 +3,6 @@ package ru.tasha2k7.mail;
 
 import javax.swing.text.*;
 
-// например, мы хотим фильтровать цифры
 class Filter extends DocumentFilter {
     @Override
     public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {

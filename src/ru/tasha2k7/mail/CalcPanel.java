@@ -9,6 +9,9 @@ import java.awt.*;
 public class CalcPanel extends JFrame{
 
     public CalcPanel(){
+        double firstnumber, doublenumber, result;
+        String operations, answer;
+
         // Создание окна
         JFrame panel = new JFrame("Calculator");
         panel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -18,8 +21,6 @@ public class CalcPanel extends JFrame{
 
 //GridBagConstraints(int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty,
 // int anchor, int fill, Insets insets, int ipadx, int ipady)
-
-
 
         // натуральная высота, максимальная ширина и высота
         bag.fill = GridBagConstraints.BOTH;
