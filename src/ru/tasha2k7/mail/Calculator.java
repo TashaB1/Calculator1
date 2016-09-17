@@ -263,7 +263,7 @@ public class Calculator {
                 if (!display2.getText().equals("") && lastSymb.equals(")"))
                     display2.setText(display2.getText() + "*" + display1.getText() + "+");
                 else
-                    if (display2.getText().equals("") || "+-*/".indexOf(lastSymb) == -1)
+                    if (!display1.getText().equals(""))
                         display2.setText(display2.getText() + display1.getText() + "+");
 
                 display1.setText("");
@@ -282,7 +282,7 @@ public class Calculator {
                 if (!display2.getText().equals("") && lastSymb.equals(")"))
                     display2.setText(display2.getText() + "*" + display1.getText() + "-");
                 else
-                if (display2.getText().equals("") || "+-*/".indexOf(lastSymb) == -1)
+                if (!display1.getText().equals(""))
                     display2.setText(display2.getText() + display1.getText() + "-");
 
                 display1.setText("");
@@ -301,7 +301,7 @@ public class Calculator {
                 if (!display2.getText().equals("") && lastSymb.equals(")"))
                     display2.setText(display2.getText() + "*" + display1.getText() + "*");
                 else
-                if (display2.getText().equals("") || "+-*/".indexOf(lastSymb) == -1)
+                if (!display1.getText().equals(""))
                     display2.setText(display2.getText() + display1.getText() + "*");
 
                 display1.setText("");
@@ -320,7 +320,7 @@ public class Calculator {
                 if (!display2.getText().equals("") && lastSymb.equals(")"))
                     display2.setText(display2.getText() + "*" + display1.getText() + "/");
                 else
-                if (display2.getText().equals("") || "+-*/".indexOf(lastSymb) == -1)
+                if (!display1.getText().equals(""))
                     display2.setText(display2.getText() + display1.getText() + "/");
 
                 display1.setText("");
@@ -410,9 +410,23 @@ public class Calculator {
                     }
                 }
 
-                if (e.getKeyCode() == KeyEvent.VK_ADD || e.getKeyCode() == KeyEvent.VK_MULTIPLY || e.getKeyCode() == KeyEvent.VK_DIVIDE || e.getKeyCode() == KeyEvent.VK_SUBTRACT){
+                if (e.getKeyCode() == KeyEvent.VK_ADD ){//|| e.getKeyCode() == KeyEvent.VK_MULTIPLY || e.getKeyCode() == KeyEvent.VK_DIVIDE || e.getKeyCode() == KeyEvent.VK_SUBTRACT){
+                    if (!display2.getText().equals("")) {
+                        indLastSymb = display2.getText().length()-1;
+                        lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
+                    }
 
+                    if (!display2.getText().equals("") && lastSymb.equals(")"))
+                        display2.setText(display2.getText() + "*" + display1.getText() + "+");
+                    else
+                    if (!display1.getText().equals(""))
+                        display2.setText(display2.getText() + display1.getText() + "+");
+
+                    display1.setText("");
+                    display1.requestFocus();
                 }
+
+                
 
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     display2.setText("");
