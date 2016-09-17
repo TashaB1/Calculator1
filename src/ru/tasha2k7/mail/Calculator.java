@@ -15,7 +15,7 @@ public class Calculator {
     double firstnumber, doublenumber, result;
     String operations,answer;
 
-    public Calculator(){
+    public static String Calculator(){
 
         // Создание окна
         JFrame panel = new JFrame("Calculator");
@@ -28,75 +28,88 @@ public class Calculator {
         // int anchor, int fill, Insets insets, int ipadx, int ipady)
 
         bag.fill = GridBagConstraints.BOTH;  // максимальная ширина и высота
-        bag.insets = new Insets(2, 2, 2, 2);  // отступы
         bag.weightx = 0.5;
         bag.weighty = 0.5;
-        bag.ipady = 20;
+        bag.ipady = 10;
         bag.ipadx = 10;
 
-        JTextField display = new JTextField();
-        display.setFont(new Font("Tahoma",0,25));
+        bag.insets = new Insets(2, 2, 0, 2);  // отступы
+        JTextField display2 = new JTextField();
+        display2.setFont(new Font("Tahoma",0,25));
+        display2.setHorizontalAlignment(JTextField.RIGHT );
+        display2.setEnabled(false);
         bag.gridwidth = 4;
         bag.gridx = 0;
         bag.gridy = 0;
-        panel.add(display, bag);
+        panel.add(display2, bag);
 
-       // фильт ввода в JTextField
-        ((AbstractDocument) display.getDocument()).setDocumentFilter(new Filter());
-
-        bag.gridwidth = 1;
-        JButton btnBackSpace = new JButton("←");
+        bag.insets = new Insets(0, 2, 2, 2);  // отступы
+        JTextField display1 = new JTextField();
+        display1.setFont(new Font("Tahoma",0,25));
+        display1.setHorizontalAlignment(JTextField.RIGHT );
+        bag.gridwidth = 4;
         bag.gridx = 0;
         bag.gridy = 1;
+        panel.add(display1, bag);
+
+        // фильт ввода в JTextField
+        ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter());
+
+        bag.gridwidth = 1;
+        bag.ipady = 20;
+        bag.insets = new Insets(2, 2, 2, 2);  // отступы
+        JButton btnBackSpace = new JButton("←");
+        bag.gridx = 0;
+        bag.gridy = 2;
         panel.add(btnBackSpace, bag);
 
         JButton btnDiv = new JButton("/");
         bag.gridx = 1;
-        bag.gridy = 1;
+        bag.gridy = 2;
         panel.add(btnDiv, bag);
 
         JButton btnMult = new JButton("*");
         bag.gridx = 2;
-        bag.gridy = 1;
+        bag.gridy = 2;
         panel.add(btnMult, bag);
 
         JButton btnSub = new JButton("-");
         bag.gridx = 3;
-        bag.gridy = 1;
+        bag.gridy = 2;
         panel.add(btnSub, bag);
 
         JButton btn7 = new JButton("7");
         bag.gridx = 0;
-        bag.gridy = 2;
+        bag.gridy = 3;
         panel.add(btn7, bag);
 
         JButton btn8 = new JButton("8");
         bag.gridx = 1;
-        bag.gridy = 2;
+        bag.gridy = 3;
         panel.add(btn8, bag);
 
         JButton btn9 = new JButton("9");
         bag.gridx = 2;
-        bag.gridy = 2;
+        bag.gridy = 3;
         panel.add(btn9, bag);
 
         JButton btn4 = new JButton("4");
         bag.gridx = 0;
-        bag.gridy = 3;
+        bag.gridy = 4;
         panel.add(btn4, bag);
 
         JButton btn5 = new JButton("5");
         bag.gridx = 1;
-        bag.gridy = 3;
+        bag.gridy = 4;
         panel.add(btn5, bag);
 
         JButton btn6 = new JButton("6");
         bag.gridx = 2;
-        bag.gridy = 3;
+        bag.gridy = 4;
         panel.add(btn6, bag);
 
         JButton btnAdd = new JButton("+");
-        bag.gridy = 2;       // выравнять компонент по 1 строке
+        bag.gridy = 3;       // выравнять компонент по 1 строке
         bag.gridheight = 2; // и 2 строке
         bag.gridx = 3;       // и 3 столбец
         panel.add(btnAdd, bag);
@@ -104,33 +117,33 @@ public class Calculator {
         bag.gridheight = 1; // и 2 строке
         JButton btn1 = new JButton("1");
         bag.gridx = 0;
-        bag.gridy = 4;
+        bag.gridy = 5;
         panel.add(btn1, bag);
 
         JButton btn2 = new JButton("2");
         bag.gridx = 1;
-        bag.gridy = 4;
+        bag.gridy = 5;
         panel.add(btn2, bag);
 
         JButton btn3 = new JButton("3");
         bag.gridx = 2;
-        bag.gridy = 4;
+        bag.gridy = 5;
         panel.add(btn3, bag);
 
         JButton btn0 = new JButton("0");
         bag.gridx = 0;
         bag.gridwidth = 2;
-        bag.gridy = 5;
+        bag.gridy = 6;
         panel.add(btn0, bag);
 
         bag.gridwidth = 1;
         JButton btnDot = new JButton(".");
         bag.gridx = 2;
-        bag.gridy = 5;
+        bag.gridy = 6;
         panel.add(btnDot, bag);
 
         JButton btnEnter = new JButton("=");
-        bag.gridy = 4;       // выравнять компонент по 1 строке
+        bag.gridy = 5;       // выравнять компонент по 1 строке
         bag.gridheight = 2; // и 2 строке
         bag.gridx = 3;       // и 3 столбец
         panel.add(btnEnter, bag);
@@ -139,119 +152,119 @@ public class Calculator {
         btn1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String EnterNumber = display.getText() + btn1.getText();
-                display.setText(EnterNumber);
-                display.requestFocus();
+                String EnterNumber = display1.getText() + btn1.getText();
+                display1.setText(EnterNumber);
+                display1.requestFocus();
             }
         });
 
         btn2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String EnterNumber = display.getText() + btn2.getText();
-                display.setText(EnterNumber);
-                display.requestFocus();
+                String EnterNumber = display1.getText() + btn2.getText();
+                display1.setText(EnterNumber);
+                display1.requestFocus();
             }
         });
 
         btn3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String EnterNumber = display.getText() + btn3.getText();
-                display.setText(EnterNumber);
-                display.requestFocus();
+                String EnterNumber = display1.getText() + btn3.getText();
+                display1.setText(EnterNumber);
+                display1.requestFocus();
             }
         });
 
         btn4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String EnterNumber = display.getText() + btn4.getText();
-                display.setText(EnterNumber);
-                display.requestFocus();
+                String EnterNumber = display1.getText() + btn4.getText();
+                display1.setText(EnterNumber);
+                display1.requestFocus();
             }
         });
 
         btn5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String EnterNumber = display.getText() + btn5.getText();
-                display.setText(EnterNumber);
-                display.requestFocus();
+                String EnterNumber = display1.getText() + btn5.getText();
+                display1.setText(EnterNumber);
+                display1.requestFocus();
             }
         });
         btn6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String EnterNumber = display.getText() + btn6.getText();
-                display.setText(EnterNumber);
-                display.requestFocus();
+                String EnterNumber = display1.getText() + btn6.getText();
+                display1.setText(EnterNumber);
+                display1.requestFocus();
             }
         });
 
         btn7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String EnterNumber = display.getText() + btn7.getText();
-                display.setText(EnterNumber);
-                display.requestFocus();
+                String EnterNumber = display1.getText() + btn7.getText();
+                display1.setText(EnterNumber);
+                display1.requestFocus();
             }
         });
 
         btn8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String EnterNumber = display.getText() + btn8.getText();
-                display.setText(EnterNumber);
-                display.requestFocus();
+                String EnterNumber = display1.getText() + btn8.getText();
+                display1.setText(EnterNumber);
+                display1.requestFocus();
             }
         });
 
         btn9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String EnterNumber = display.getText() + btn9.getText();
-                display.setText(EnterNumber);
-                display.requestFocus();
+                String EnterNumber = display1.getText() + btn9.getText();
+                display1.setText(EnterNumber);
+                display1.requestFocus();
             }
         });
 
         btn0.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String EnterNumber = display.getText() + btn0.getText();
-                display.setText(EnterNumber);
-                display.requestFocus();
+                String EnterNumber = display1.getText() + btn0.getText();
+                display1.setText(EnterNumber);
+                display1.requestFocus();
             }
         });
 
-        btnAdd.addActionListener(new ActionListener() {
+       /* btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                firstnumber = Double.parseDouble(display.getText());
-                display.setText("");
+                firstnumber = Double.parseDouble(display1.getText());
+                display1.setText("");
                 operations = "+";
-                display.requestFocus();
+                display1.requestFocus();
             }
         });
 
         btnSub.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                firstnumber = Double.parseDouble(display.getText());
-                display.setText("");
+                firstnumber = Double.parseDouble(display1.getText());
+                display1.setText("");
                 operations = "-";
-                display.requestFocus();
+                display1.requestFocus();
             }
         });
 
         btnMult.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                firstnumber = Double.parseDouble(display.getText());
-                display.setText("");
+                firstnumber = Double.parseDouble(display1.getText());
+                display1.setText("");
                 operations = "*";
-                display.requestFocus();
+                display1.requestFocus();
             }
         });
 
@@ -259,35 +272,65 @@ public class Calculator {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
-                firstnumber = Double.parseDouble(display.getText());
-                display.setText("");
+                firstnumber = Double.parseDouble(display1.getText());
+                display1.setText("");
                 operations = "*";
-                display.requestFocus();
+                display1.requestFocus();
             }
         });
 
         btnDiv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                firstnumber = Double.parseDouble(display.getText());
-                display.setText("");
+                firstnumber = Double.parseDouble(display1.getText());
+                display1.setText("");
                 operations = "/";
-                display.requestFocus();
+                display1.requestFocus();
             }
-        });
+        });*/
 
         btnBackSpace.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 String backspace = null;
-                if (display.getText().length() >0){
-                    StringBuilder str = new StringBuilder(display.getText());
-                    str.deleteCharAt(display.getText().length()-1);
+                if (display1.getText().length() >0){
+                    StringBuilder str = new StringBuilder(display1.getText());
+                    str.deleteCharAt(display1.getText().length()-1);
                     backspace = str.toString();
-                    display.setText(backspace);
+                    display1.setText(backspace);
                 }
-                display.requestFocus();
+                display1.requestFocus();
+            }
+        });
+
+        btnEnter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (bracket(display2.getText()) > 0) {
+                    for (int j = 1; j == bracket(display2.getText()); j++) {
+                        display2.setText(display2.getText() + ")");
+                    }
+                }
+
+
+
+            }
+        });
+
+        display2.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET){
+                    if (bracket(display2.getText()) > 0) {
+                            display2.setText(display2.getText() + ")");
+                    }
+                    else display2.setText(display2.getText());
+                }
+                if (e.getKeyCode() == KeyEvent.VK_OPEN_BRACKET){
+                    display2.setText(display2.getText() + "(");
+                }
+                super.keyPressed(e);
             }
         });
 
@@ -297,10 +340,28 @@ public class Calculator {
         panel.setResizable(false);
         panel.pack();
         panel.setVisible(true);
+
+        return display2.getText();
+    }
+
+    public static int bracket(String expression){
+        int open = 0, close = 0;
+        for (int i=0; i< expression.length(); i++){
+            if (expression.charAt(i) == '(') open++;
+            if (expression.charAt(i) == ')') close++;
+        }
+        return open-close;
     }
 
     public static void main(String[] args) {
-        new Calculator();
 
+        GetExpressionOpz opz = new GetExpressionOpz();
+        CalcExpression calc = new CalcExpression();
+        //"Входной" метод класса
+
+            String postnot = opz.ParseExpression("(3-1)+2"); //Преобразовываем выражение в постфиксную запись
+            System.out.println(postnot);
+            double result = calc.CalcExpression(postnot); //Решаем полученное выражение
+            System.out.println(result); //Возвращаем результат
     }
 }
