@@ -6,9 +6,8 @@ import java.util.Stack;
  * Created by Wolfsjunge on 16.09.2016.
  */
 class CalcExpression {
-    public Double CalcExpression(String postnot) {
+    public double CalcExpression(String postnot) {
         Stack<Double> stack = new Stack<Double>();
-
         for (int x = 0; x < postnot.length(); x++) {
             if (postnot.charAt(x) == '+') stack.push(stack.pop() + stack.pop());
             else
@@ -24,7 +23,7 @@ class CalcExpression {
                 stack.push(a/b);
             }
             else
-            stack.push(Double.valueOf(x));
+            stack.push(Double.valueOf(String.valueOf(postnot.charAt(x))));
         }
         return stack.pop();
     }

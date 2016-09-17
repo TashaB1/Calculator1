@@ -25,7 +25,7 @@ class GetExpressionOpz {
         return false;
     }*/
 
-    private static boolean isDelimiter(String delim){
+    public static boolean isDelimiter(String delim){
         if (delimiters.indexOf(delim) != -1)
             return  true;
         return false;
@@ -35,7 +35,7 @@ class GetExpressionOpz {
         if(oper.equals("(")) return 1;
         if(oper.equals("+")||oper.equals("-")) return 2;
         if(oper.equals("*")||oper.equals("/")) return 3;
-        return 0;
+        return 4;
     }
 
     public static String ParseExpression(String infnot){
@@ -51,21 +51,26 @@ class GetExpressionOpz {
             if (word.equals(" ")) continue;
 
             if (isDelimiter(word)) {  // если слово - разделитель
-                if (word.equals("(")) stack.push(word);   // если скобка откр. то в выходную строку
-                else if (word.equals(")")) {  //извлекаем символы из стека в выходную строку до тех пор, пока не встретим в стеке открывающую скобку
+                if (word.equals("(")) stack.push(word);   // если скобка откр. то помещ ее в стек
+                else if (word.equals(")")) {  // извлекаем символы из стека в выходную строку до тех пор, пока не встретим в стеке открывающую скобку
                     while (!stack.peek().equals("(")) {
-                        postnot += stack.pop();   //для массива postnot.add((String) stack.pop());
+                        postnot += stack.pop();   // для массива postnot.add((String) stack.pop());
                     }
-                    stack.pop(); // уничтожили (
+                    stack.pop(); // уничтожили "("
                 } else {
-                    while (!stack.isEmpty() && (priority(word) <= priority(String.valueOf(stack.peek())))) {
+                    while (!stack.isEmpty() && (priority(word) <= priority(String.valueOf(stack.peek())))) { /* если символ на вершине стека имеет приоритет >= приоритету текущего символа
+                                                                                                                то извлекаем символы в выходную строку до тех пор по вып-ся это условие*/
                         postnot += stack.pop();
                     }
-                    stack.push(word);
+                    stack.push(word);/* если стек пуст или находящиеся в нем символы(знаки операц и скобки) имеют меньший приоритет, чем приоритет текущего символа
+                                        то помещаем текущий символ в стек */
                 }
             } else {
                 postnot += word;
             }
+        }
+        while (!stack.isEmpty()){  //если входная строка разобрана, а в стеке остаются знаки операций, извлекаем их в вых стр
+            postnot += stack.pop();
         }
         return postnot;
     }
