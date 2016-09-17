@@ -258,9 +258,8 @@ public class Calculator {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                number = Double.parseDouble(display1.getText());
+                display2.setText(display2.getText() + display1.getText() + "+");
                 display1.setText("");
-                display2.setText(display2.getText() + number + "+");
                 display1.requestFocus();
             }
         });
@@ -310,6 +309,8 @@ public class Calculator {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
+
                 String backspace = null;
                 if (display1.getText().length() >0){
                     StringBuilder str = new StringBuilder(display1.getText());
@@ -324,6 +325,11 @@ public class Calculator {
         btnEnter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                if (display1.getText() != ""){
+                    display2.setText(display2.getText() + display1.getText());
+                }
+
                 if (bracket(display2.getText()) > 0) {
                     for (int j = 1; j == bracket(display2.getText()); j++) {
                         display2.setText(display2.getText() + ")");
@@ -332,8 +338,8 @@ public class Calculator {
 
                 if (display2.getText() != "") {
 
-                    CalcExpression calc = new CalcExpression();  //"(4-5)-3");
-                    String postnot = geo.ParseExpression(display2.getText()); //Преобразовываем выражение в постфиксную запись
+                    CalcExpression calc = new CalcExpression();
+                    String postnot = geo.ParseExpression("(50-5.3)-80");//display2.getText()); //Преобразовываем выражение в постфиксную запись
                     System.out.println(postnot);
                     double result = calc.CalcExpression(postnot); //Решаем полученное выражение
                     System.out.println(result); //Возвращаем результат
@@ -346,14 +352,17 @@ public class Calculator {
         display1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET){
+                if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_0){
+
                     if (bracket(display2.getText()) > 0) {
                             display2.setText(display2.getText() + ")");
                     }
                     else display2.setText(display2.getText());
+
                 }
-                if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_OPEN_BRACKET){
-                    if ((geo.isDelimiter(String.valueOf(display2.getText().charAt(indLastSymb))))||(display2.getText() == "")){
+                if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_9){
+                    display2.setText(display2.getText() + "(");
+                   /* if ((geo.isDelimiter(String.valueOf(display2.getText().charAt(indLastSymb))))||(display2.getText() == "")){
                         display2.setText(display2.getText() + "(");
                     }
                     else{
@@ -362,10 +371,19 @@ public class Calculator {
                             i--;
                         }
                         display2.setText(display2.getText().substring(0,i) + "(" + display2.getText().substring(i+1, indLastSymb));
-                    }
+                    }*/
 
                 }
-                super.keyPressed(e);
+
+                if (e.getKeyCode() == KeyEvent.VK_ADD){
+
+                }
+
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    display2.setText("");
+                    display1.setText("");
+                }
+              //  super.keyPressed(e);
             }
         });
 
@@ -379,12 +397,12 @@ public class Calculator {
     }
 
     public static int bracket(String expression){
-        int open = 0, close = 0;
+     /*   int open = 0, close = 0;
         for (int i=0; i< expression.length(); i++){
             if (String.valueOf(expression.charAt(i)) == "(") open++;
             if (String.valueOf(expression.charAt(i)) == ")") close++;
         }
-        return open-close;
+        return open-close;*/return 0;
     }
 
     public static void main(String[] args) {
