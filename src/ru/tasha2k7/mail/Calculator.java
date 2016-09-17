@@ -260,21 +260,32 @@ public class Calculator {
                     lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
                 }
 
-                if (lastSymb.equals(")"))
+                if (!display2.getText().equals("") && lastSymb.equals(")"))
                     display2.setText(display2.getText() + "*" + display1.getText() + "+");
                 else
-                    display2.setText(display2.getText() + display1.getText() + "+");
+                    if (display2.getText().equals("") || "+-*/".indexOf(lastSymb) == -1)
+                        display2.setText(display2.getText() + display1.getText() + "+");
+
                 display1.setText("");
                 display1.requestFocus();
             }
         });
 
-     /*   btnSub.addActionListener(new ActionListener() {
+        btnSub.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                firstnumber = Double.parseDouble(display1.getText());
+                if (!display2.getText().equals("")) {
+                    indLastSymb = display2.getText().length()-1;
+                    lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
+                }
+
+                if (!display2.getText().equals("") && lastSymb.equals(")"))
+                    display2.setText(display2.getText() + "*" + display1.getText() + "-");
+                else
+                if (display2.getText().equals("") || "+-*/".indexOf(lastSymb) == -1)
+                    display2.setText(display2.getText() + display1.getText() + "-");
+
                 display1.setText("");
-                operations = "-";
                 display1.requestFocus();
             }
         });
@@ -282,20 +293,18 @@ public class Calculator {
         btnMult.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                firstnumber = Double.parseDouble(display1.getText());
-                display1.setText("");
-                operations = "*";
-                display1.requestFocus();
-            }
-        });
+                if (!display2.getText().equals("")) {
+                    indLastSymb = display2.getText().length()-1;
+                    lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
+                }
 
-        btnMult.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
-                firstnumber = Double.parseDouble(display1.getText());
+                if (!display2.getText().equals("") && lastSymb.equals(")"))
+                    display2.setText(display2.getText() + "*" + display1.getText() + "*");
+                else
+                if (display2.getText().equals("") || "+-*/".indexOf(lastSymb) == -1)
+                    display2.setText(display2.getText() + display1.getText() + "*");
+
                 display1.setText("");
-                operations = "*";
                 display1.requestFocus();
             }
         });
@@ -303,12 +312,21 @@ public class Calculator {
         btnDiv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                firstnumber = Double.parseDouble(display1.getText());
+                if (!display2.getText().equals("")) {
+                    indLastSymb = display2.getText().length()-1;
+                    lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
+                }
+
+                if (!display2.getText().equals("") && lastSymb.equals(")"))
+                    display2.setText(display2.getText() + "*" + display1.getText() + "/");
+                else
+                if (display2.getText().equals("") || "+-*/".indexOf(lastSymb) == -1)
+                    display2.setText(display2.getText() + display1.getText() + "/");
+
                 display1.setText("");
-                operations = "/";
                 display1.requestFocus();
             }
-        });*/
+        });
 
         btnBackSpace.addActionListener(new ActionListener() {
             @Override
@@ -392,7 +410,7 @@ public class Calculator {
                     }
                 }
 
-                if (e.getKeyCode() == KeyEvent.VK_ADD){
+                if (e.getKeyCode() == KeyEvent.VK_ADD || e.getKeyCode() == KeyEvent.VK_MULTIPLY || e.getKeyCode() == KeyEvent.VK_DIVIDE || e.getKeyCode() == KeyEvent.VK_SUBTRACT){
 
                 }
 
