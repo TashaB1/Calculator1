@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 public class Calculator {
     double number;
     public int indLastSymb = 0;
+    public String lastSymb;
     public GetExpressionOpz geo = new GetExpressionOpz();
 
     public Calculator(){
@@ -254,7 +255,15 @@ public class Calculator {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                display2.setText(display2.getText() + display1.getText() + "+");
+                if (!display2.getText().equals("")) {
+                    indLastSymb = display2.getText().length()-1;
+                    lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
+                }
+
+                if (lastSymb.equals(")"))
+                    display2.setText(display2.getText() + "*" + display1.getText() + "+");
+                else
+                    display2.setText(display2.getText() + display1.getText() + "+");
                 display1.setText("");
                 display1.requestFocus();
             }
@@ -333,8 +342,8 @@ public class Calculator {
 
                 if (display2.getText() != "") {
 
-                    CalcExpression calc = new CalcExpression();
-                    String postnot = geo.ParseExpression("(50-5.3)-80");//display2.getText()); //Преобразовываем выражение в постфиксную запись
+                    CalcExpression calc = new CalcExpression();//"(50-5.3)-80");
+                    String postnot = geo.ParseExpression(display2.getText()); //Преобразовываем выражение в постфиксную запись
                     System.out.println(postnot);
                     double result = calc.CalcExpression(postnot); //Решаем полученное выражение
                     System.out.println(result); //Возвращаем результат
@@ -350,27 +359,37 @@ public class Calculator {
             public void keyPressed(KeyEvent e) {
                 if (!display2.getText().equals("")) {
                     indLastSymb = display2.getText().length()-1;
+                    lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
                 }
+
                 if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_0){
-
-                    if (bracket(display2.getText()) > 0) {
-                            display2.setText(display2.getText() + ")");
+                    if ((lastSymb.equals(")"))&&(bracket(display2.getText()) > 0)){
+                        display2.setText(display2.getText() + ")");
                     }
-                    else display2.setText(display2.getText());
 
+                    if ("+-*/".indexOf(lastSymb) != -1 && !display1.getText().equals("")){
+                        if (lastSymb.equals(")"))
+                            display2.setText(display2.getText() + "*" + display1.getText() + ")");
+                        else
+                            display2.setText(display2.getText() + display1.getText() + ")");
+                        display1.setText("");
+                        display1.requestFocus();
+                    }
                 }
+
                 if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_9){
-                    if ((display2.getText().equals("")) || (display2.getText().equals("(")) || geo.isDelimiter(String.valueOf(display2.getText().charAt(indLastSymb)))){
+                    if ((display2.getText().equals("")) || (lastSymb.equals("(")) || "+-*/".indexOf(lastSymb) != -1){
                         display2.setText(display2.getText() + "(");
                     }
-                    else{
-                        int i = indLastSymb;
-                        while (!geo.isDelimiter(String.valueOf(display2.getText().charAt(indLastSymb)))) {
-                            i--;
+                    else {
+                        if (!geo.isDelimiter(lastSymb)){
+                            int i = indLastSymb;
+                            while ("+-*/".indexOf(lastSymb) == -1) {
+                                i--;
+                            }
+                            display2.setText(display2.getText().substring(0,i) + "(" + display2.getText().substring(i+1, indLastSymb));
                         }
-                        display2.setText(display2.getText().substring(0,i) + "(" + display2.getText().substring(i+1, indLastSymb));
                     }
-
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_ADD){
