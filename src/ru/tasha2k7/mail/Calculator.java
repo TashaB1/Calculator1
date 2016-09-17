@@ -12,10 +12,11 @@ import java.awt.event.KeyEvent;
  * Created by Wolfsjunge on 10.09.2016.
  */
 public class Calculator {
-    double firstnumber, doublenumber, result;
-    String operations,answer;
+    double number;
+    public int indLastSymb = 0;
+    public GetExpressionOpz geo = new GetExpressionOpz();
 
-    public static String Calculator(){
+    public Calculator(){
 
         // Создание окна
         JFrame panel = new JFrame("Calculator");
@@ -43,6 +44,10 @@ public class Calculator {
         bag.gridy = 0;
         panel.add(display2, bag);
 
+        if (display2.getText() != "") {
+            indLastSymb = display2.getText().length()-1;
+        }
+
         bag.insets = new Insets(0, 2, 2, 2);  // отступы
         JTextField display1 = new JTextField();
         display1.setFont(new Font("Tahoma",0,25));
@@ -53,7 +58,8 @@ public class Calculator {
         panel.add(display1, bag);
 
         // фильт ввода в JTextField
-        ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter());
+        ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter1());
+        ((AbstractDocument) display2.getDocument()).setDocumentFilter(new Filter2());
 
         bag.gridwidth = 1;
         bag.ipady = 20;
@@ -238,17 +244,28 @@ public class Calculator {
             }
         });
 
-       /* btnAdd.addActionListener(new ActionListener() {
+        btnDot.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                firstnumber = Double.parseDouble(display1.getText());
+                if (display1.getText().indexOf(".") == -1){
+                    String EnterNumber = display1.getText() + btnDot.getText();
+                    display1.setText(EnterNumber);
+                    display1.requestFocus();
+                }
+            }
+        });
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                number = Double.parseDouble(display1.getText());
                 display1.setText("");
-                operations = "+";
+                display2.setText(display2.getText() + number + "+");
                 display1.requestFocus();
             }
         });
 
-        btnSub.addActionListener(new ActionListener() {
+     /*   btnSub.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 firstnumber = Double.parseDouble(display1.getText());
@@ -313,22 +330,40 @@ public class Calculator {
                     }
                 }
 
+                if (display2.getText() != "") {
 
-
+                    CalcExpression calc = new CalcExpression();  //"(4-5)-3");
+                    String postnot = geo.ParseExpression(display2.getText()); //Преобразовываем выражение в постфиксную запись
+                    System.out.println(postnot);
+                    double result = calc.CalcExpression(postnot); //Решаем полученное выражение
+                    System.out.println(result); //Возвращаем результат
+                    display1.setText(String.valueOf(result));
+                    display1.requestFocus();
+                }
             }
         });
 
-        display2.addKeyListener(new KeyAdapter() {
+        display1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET){
+                if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET){
                     if (bracket(display2.getText()) > 0) {
                             display2.setText(display2.getText() + ")");
                     }
                     else display2.setText(display2.getText());
                 }
-                if (e.getKeyCode() == KeyEvent.VK_OPEN_BRACKET){
-                    display2.setText(display2.getText() + "(");
+                if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_OPEN_BRACKET){
+                    if ((geo.isDelimiter(String.valueOf(display2.getText().charAt(indLastSymb))))||(display2.getText() == "")){
+                        display2.setText(display2.getText() + "(");
+                    }
+                    else{
+                        int i = indLastSymb;
+                        while (!(geo.isDelimiter(String.valueOf(display2.getText().charAt(indLastSymb))))) {
+                            i--;
+                        }
+                        display2.setText(display2.getText().substring(0,i) + "(" + display2.getText().substring(i+1, indLastSymb));
+                    }
+
                 }
                 super.keyPressed(e);
             }
@@ -341,27 +376,20 @@ public class Calculator {
         panel.pack();
         panel.setVisible(true);
 
-        return display2.getText();
     }
 
     public static int bracket(String expression){
         int open = 0, close = 0;
         for (int i=0; i< expression.length(); i++){
-            if (expression.charAt(i) == '(') open++;
-            if (expression.charAt(i) == ')') close++;
+            if (String.valueOf(expression.charAt(i)) == "(") open++;
+            if (String.valueOf(expression.charAt(i)) == ")") close++;
         }
         return open-close;
     }
 
     public static void main(String[] args) {
 
-        GetExpressionOpz opz = new GetExpressionOpz();
-        CalcExpression calc = new CalcExpression();
-        //"Входной" метод класса
+        new Calculator();
 
-            String postnot = opz.ParseExpression("(3-1)+2"); //Преобразовываем выражение в постфиксную запись
-            System.out.println(postnot);
-            double result = calc.CalcExpression(postnot); //Решаем полученное выражение
-            System.out.println(result); //Возвращаем результат
     }
 }
