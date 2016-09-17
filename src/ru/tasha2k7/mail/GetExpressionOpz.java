@@ -58,7 +58,7 @@ class GetExpressionOpz {
                     }
                     stack.pop(); // уничтожили (
                 } else {
-                    while (!stack.isEmpty() && (priority(word) <= priority(String.valueOf(stack.peek())))) { 
+                    while (!stack.isEmpty() && (priority(word) <= priority(String.valueOf(stack.peek())))) {
                         postnot += stack.pop();
                     }
                     stack.push(word);
