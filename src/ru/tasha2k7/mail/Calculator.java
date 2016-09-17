@@ -44,10 +44,6 @@ public class Calculator {
         bag.gridy = 0;
         panel.add(display2, bag);
 
-        if (display2.getText() != "") {
-            indLastSymb = display2.getText().length()-1;
-        }
-
         bag.insets = new Insets(0, 2, 2, 2);  // отступы
         JTextField display1 = new JTextField();
         display1.setFont(new Font("Tahoma",0,25));
@@ -325,7 +321,6 @@ public class Calculator {
         btnEnter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if (display1.getText() != ""){
                     display2.setText(display2.getText() + display1.getText());
                 }
@@ -346,12 +341,16 @@ public class Calculator {
                     display1.setText(String.valueOf(result));
                     display1.requestFocus();
                 }
+
             }
         });
 
         display1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
+                if (!display2.getText().equals("")) {
+                    indLastSymb = display2.getText().length()-1;
+                }
                 if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_0){
 
                     if (bracket(display2.getText()) > 0) {
@@ -361,17 +360,16 @@ public class Calculator {
 
                 }
                 if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_9){
-                    display2.setText(display2.getText() + "(");
-                   /* if ((geo.isDelimiter(String.valueOf(display2.getText().charAt(indLastSymb))))||(display2.getText() == "")){
+                    if ((display2.getText().equals("")) || (display2.getText().equals("(")) || geo.isDelimiter(String.valueOf(display2.getText().charAt(indLastSymb)))){
                         display2.setText(display2.getText() + "(");
                     }
                     else{
                         int i = indLastSymb;
-                        while (!(geo.isDelimiter(String.valueOf(display2.getText().charAt(indLastSymb))))) {
+                        while (!geo.isDelimiter(String.valueOf(display2.getText().charAt(indLastSymb)))) {
                             i--;
                         }
                         display2.setText(display2.getText().substring(0,i) + "(" + display2.getText().substring(i+1, indLastSymb));
-                    }*/
+                    }
 
                 }
 
@@ -397,12 +395,12 @@ public class Calculator {
     }
 
     public static int bracket(String expression){
-     /*   int open = 0, close = 0;
+        int open = 0, close = 0;
         for (int i=0; i< expression.length(); i++){
-            if (String.valueOf(expression.charAt(i)) == "(") open++;
-            if (String.valueOf(expression.charAt(i)) == ")") close++;
+            if (String.valueOf(expression.charAt(i)).equals("(")) open++;
+            if (String.valueOf(expression.charAt(i)).equals(")")) close++;
         }
-        return open-close;*/return 0;
+        return open-close;
     }
 
     public static void main(String[] args) {
