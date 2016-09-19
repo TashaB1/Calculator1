@@ -274,6 +274,30 @@ public class CalcPanel extends JFrame {
             }
         });
 
+        btnCE.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                display1.setText("");
+            }
+        });
+
+        btnC.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                display1.setText("");
+                display2.setText("");
+            }
+        });
+
+        btnPercent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!display1.getText().equals("") && !display2.getText().equals("") && display1.getText().indexOf("%") == -1) {
+                    display1.setText(display1.getText() + "%");
+                }
+            }
+        });
+
         btnBackSpace.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -312,7 +336,7 @@ public class CalcPanel extends JFrame {
                         display1.setText("");
                     }
 
-                    if ((operation.indexOf(lastSymb) != -1 && !display1.getText().equals(""))  && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0)) {
+                    if ((operation.indexOf(lastSymb) != -1 && !display1.getText().equals("")) && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0)) {
                         display2.setText(display2.getText() + display1.getText() + ")");
                         display1.setText("");
                     }
