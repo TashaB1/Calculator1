@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
  */
 
 class GetExpressionOpz {
-    private static String delimiters = "+-*/() ";
+    private static String delimiters = "%+-*/() ";
 
     public static boolean isDelimiter(String delim) {
         if (delimiters.indexOf(delim) != -1)
@@ -20,7 +20,8 @@ class GetExpressionOpz {
         if (oper.equals("(")) return 1;
         if (oper.equals("+") || oper.equals("-")) return 2;
         if (oper.equals("*") || oper.equals("/")) return 3;
-        return 4;
+        if (oper.equals("%")) return 4;
+        return 5;
     }
 
     public static String ParseExpression(String infnot) {
