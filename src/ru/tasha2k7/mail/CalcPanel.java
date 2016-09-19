@@ -358,24 +358,26 @@ public class CalcPanel extends JFrame {
                         }
                     }
                 }
-
+                if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_5) {
+                    if (!display1.getText().equals("") && !display2.getText().equals("") && display1.getText().indexOf("%") == -1) {
+                        display1.setText(display1.getText() + "%");
+                    }
+                }
 /*+*/
                 if (e.getKeyCode() == KeyEvent.VK_ADD) {
                     pressOper("+", display1, display2);
                 }
-
 /*Esc*/
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     display2.setText("");
                     display1.setText("");
                 }
-
 /*/*/
                 if (e.getKeyCode() == KeyEvent.VK_DIVIDE) {
                     pressOper("/", display1, display2);
                 }
 
-/***/if (e.getKeyCode() == KeyEvent.VK_MULTIPLY) {
+/***/           if (e.getKeyCode() == KeyEvent.VK_MULTIPLY) {
                     pressOper("*", display1, display2);
                 }
 
