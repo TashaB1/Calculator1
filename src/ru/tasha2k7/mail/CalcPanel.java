@@ -17,6 +17,7 @@ public class CalcPanel extends JFrame {
     public int indLastSymb = 0;
     public String lastSymb;
     public GetExpressionOpz geo = new GetExpressionOpz();
+    String operation = "%*/+-";
 
     public CalcPanel() {
         // Создание окна
@@ -24,9 +25,6 @@ public class CalcPanel extends JFrame {
         panel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel.setLayout(new GridBagLayout());
         GridBagConstraints bag = new GridBagConstraints();
-
-        //GridBagConstraints(int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty,
-        // int anchor, int fill, Insets insets, int ipadx, int ipady)
 
         bag.fill = GridBagConstraints.BOTH;  // максимальная ширина и высота
         bag.weightx = 0.5;
@@ -416,7 +414,7 @@ public class CalcPanel extends JFrame {
                         lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
                     }
 
-                    if (!display2.getText().equals("") && lastSymb.equals("/")) {
+                    if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb.equals("/")) {
                         if (Double.valueOf(display1.getText()) == 0) {
                             display2.setText("");
                             ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
@@ -545,7 +543,7 @@ public class CalcPanel extends JFrame {
             lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
         }
 
-        if (!display2.getText().equals("") && lastSymb.equals("/")) {
+        if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb.equals("/")) {
             if (Double.valueOf(display1.getText()) == 0) {
                 display2.setText("");
                 ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());

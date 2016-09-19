@@ -24,8 +24,10 @@ class CalcExpression {
                 Double b = stack.pop(), a = stack.pop();
                 Double c = a / b;
                 stack.push(c);
-            } else
-                stack.push(Double.valueOf(word));
+            } else if (word.equals("%")) {
+                Double b = stack.pop(), a = stack.peek();
+                stack.push(a*b/100);
+            } else stack.push(Double.valueOf(word));
         }
         return stack.pop();
     }
