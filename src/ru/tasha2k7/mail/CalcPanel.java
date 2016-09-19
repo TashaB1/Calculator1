@@ -379,7 +379,7 @@ public class CalcPanel extends JFrame {
                     pressOper("/", display1, display2);
                 }
 
-/***/           if (e.getKeyCode() == KeyEvent.VK_MULTIPLY) {
+/***/if (e.getKeyCode() == KeyEvent.VK_MULTIPLY) {
                     pressOper("*", display1, display2);
                 }
 
@@ -395,18 +395,22 @@ public class CalcPanel extends JFrame {
                         display1.setText("");
                         enterFlag = false;
                     }
-                  /*  if (!display2.getText().equals("")) {
+                    if (!display2.getText().equals("")) {
                         indLastSymb = display2.getText().length() - 1;
                         lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
                     }
 
-                    if (!display2.getText().equals("")&&lastSymb.equals("/")){
-                        if (0-Double.valueOf(display1.getText())==0){
+                    if (!display2.getText().equals("") && lastSymb.equals("/")) {
+                        if (Double.valueOf(display1.getText()) == 0) {
+                            display2.setText("");
                             ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
+                            display1.setFont(new Font("Tahoma", 0, 14));
                             display1.setText("Деление на ноль невозможно");
                             ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter1());
+                            return;
                         }
-                    }*/
+                    }
+
                     if (!display1.getText().equals("") || lastSymb.equals(")")) {
                         if (display1.getText() != "") {
                             display2.setText(display2.getText() + display1.getText());
@@ -446,17 +450,24 @@ public class CalcPanel extends JFrame {
 
 /*.*/
                 if (e.getKeyCode() == KeyEvent.VK_DECIMAL) {
-
+                    if (display1.getText().indexOf(".") == -1) {
+                        if (display1.getText().equals(""))
+                            display1.setText(display1.getText() + "0" + btnDot.getText());
+                        else
+                            display1.setText(display1.getText() + btnDot.getText());
+                        display1.requestFocus();
+                    }
                 }
 
-/*digit*/       if (e.getKeyCode() == KeyEvent.VK_NUMPAD0||e.getKeyCode() == KeyEvent.VK_NUMPAD1||e.getKeyCode() == KeyEvent.VK_NUMPAD2||e.getKeyCode() == KeyEvent.VK_NUMPAD3||e.getKeyCode() == KeyEvent.VK_NUMPAD4||e.getKeyCode() == KeyEvent.VK_NUMPAD5||e.getKeyCode() == KeyEvent.VK_NUMPAD6||e.getKeyCode() == KeyEvent.VK_NUMPAD7||e.getKeyCode() == KeyEvent.VK_NUMPAD8||e.getKeyCode() == KeyEvent.VK_NUMPAD9){
+/*digit*/
+                if (e.getKeyCode() == KeyEvent.VK_NUMPAD0 || e.getKeyCode() == KeyEvent.VK_NUMPAD1 || e.getKeyCode() == KeyEvent.VK_NUMPAD2 || e.getKeyCode() == KeyEvent.VK_NUMPAD3 || e.getKeyCode() == KeyEvent.VK_NUMPAD4 || e.getKeyCode() == KeyEvent.VK_NUMPAD5 || e.getKeyCode() == KeyEvent.VK_NUMPAD6 || e.getKeyCode() == KeyEvent.VK_NUMPAD7 || e.getKeyCode() == KeyEvent.VK_NUMPAD8 || e.getKeyCode() == KeyEvent.VK_NUMPAD9) {
                     if (enterFlag) {
                         display2.setText("");
                         display1.setText("");
                         enterFlag = false;
                     }
-                        display1.setText(display1.getText());
-                        display1.requestFocus();
+                    display1.setText(display1.getText());
+                    display1.requestFocus();
                 }
                 super.keyPressed(e);
             }
@@ -500,13 +511,24 @@ public class CalcPanel extends JFrame {
             lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
         }
 
-       /* if (!display2.getText().equals("")&&lastSymb.equals("/")){
-            if (0-Double.valueOf(display1.getText())==0){
+        if (display2.getText().equals("") && (String.valueOf(display1.getText().charAt(0)).equals("-"))) {
+            display2.setText("(0" + display1.getText() + ")" + oper);
+            display1.setText("");
+            display1.requestFocus();
+            return;
+        }
+
+        if (!display2.getText().equals("") && lastSymb.equals("/")) {
+            if (Double.valueOf(display1.getText()) == 0) {
+                display2.setText("");
                 ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
+                display1.setFont(new Font("Tahoma", 0, 14));
                 display1.setText("Деление на ноль невозможно");
                 ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter1());
+                return;
             }
-        }*/
+        }
+
         if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb.equals(")"))
             display2.setText(display2.getText() + "*" + display1.getText() + oper);
         else if (display1.getText().equals("") && !display2.getText().equals("") && lastSymb.equals(")"))
@@ -515,14 +537,11 @@ public class CalcPanel extends JFrame {
             display2.setText(display2.getText() + display1.getText() + oper);
 
         if (oper.equals("-")) {
-            if (display1.getText().equals("") && display1.getText().indexOf("-") == -1 && display2.getText().equals("")) {
-                display2.setText("0-" + display1.getText());
+            if (display1.getText().equals("") && display1.getText().indexOf("-") == -1 && (display2.getText().equals("") || lastSymb.equals("("))) {
+                display2.setText(display2.getText() + "0-" + display1.getText());
             }
         }
-
-
         display1.setText("");
-
         display1.requestFocus();
     }
 

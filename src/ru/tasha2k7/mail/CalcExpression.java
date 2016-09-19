@@ -22,12 +22,8 @@ class CalcExpression {
             } else if (word.equals("*")) stack.push(stack.pop() * stack.pop());
             else if (word.equals("/")) {
                 Double b = stack.pop(), a = stack.pop();
-                try {
-                    Double c = a / b;
-                    stack.push(c);
-                } catch (ArithmeticException e) {
-                    //error(b);
-                }
+                Double c = a / b;
+                stack.push(c);
             } else
                 stack.push(Double.valueOf(word));
         }
