@@ -276,63 +276,7 @@ public class CalcPanel extends JFrame {
         btnEnter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (enterFlag) {
-                    display2.setText("");
-                    display1.setText("");
-                    display1.setFont(new Font("Tahoma", 0, 20));
-                    enterFlag = false;
-                }
-                if (!display2.getText().equals("")) {
-                    indLastSymb = display2.getText().length() - 1;
-                    lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
-                }
-
-                if (!display2.getText().equals("") && lastSymb.equals("/")) {
-                    if (Double.valueOf(display1.getText()) == 0) {
-                        display2.setText("");
-                        ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
-                        display1.setFont(new Font("Tahoma", 0, 14));
-                        display1.setText("Деление на ноль невозможно");
-                        ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter1());
-                        return;
-                    }
-                }
-
-                if (!display1.getText().equals("") || lastSymb.equals(")")) {
-                    if (display1.getText() != "") {
-                        display2.setText(display2.getText() + display1.getText());
-                    }
-
-                    if (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0) {
-                        for (int j = 1; j == countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")"); j++) {
-                            display2.setText(display2.getText() + ")");
-                        }
-                    }
-
-                    if (display2.getText() != "") {
-                        CalcExpression calc = new CalcExpression();//"(50-5.3)-80");
-                        String postnot = geo.ParseExpression(display2.getText()); //Преобразовываем выражение в постфиксную запись
-
-                        double result = calc.CalcExpression(postnot); //Решаем полученное выражение
-
-                        System.out.println(postnot);
-                        System.out.println(result); //Возвращаем результат
-
-                        String answer;
-                        if (String.valueOf(result).length() > 15) {
-                            DecimalFormat df = new DecimalFormat("0.##########E0");
-                            answer = String.valueOf(df.format(result)).replaceAll(",", ".");
-                        } else
-                            answer = String.valueOf(result);
-
-                        System.out.print(String.valueOf(answer.replaceAll(",", ".")));
-                        ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
-                        display1.setText(String.valueOf(answer.replaceAll(",", ".")));
-                        enterFlag = true;
-                        display1.requestFocus();
-                        ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter1());
-                    }
-                }
+                pressEnter(display1, display2);
             }
         });
 
@@ -343,32 +287,32 @@ public class CalcPanel extends JFrame {
                     indLastSymb = display2.getText().length() - 1;
                     lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
                 }
-
 /*)*/
                 if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_0) {
-                    if ((lastSymb.equals(")")) && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0)) {
-                        display2.setText(display2.getText() + ")");
-                    }
-
-                    if ("+-*/".indexOf(lastSymb) != -1 && !display1.getText().equals("") && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0)) {
-                        if (lastSymb.equals(")"))
+                    if (!display2.getText().equals("") && lastSymb.equals(")") && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0)) {
+                        if (!display1.getText().equals(""))
                             display2.setText(display2.getText() + "*" + display1.getText() + ")");
                         else
-                            display2.setText(display2.getText() + display1.getText() + ")");
-                    } else if ("+-*/".indexOf(lastSymb) == -1 && !display1.getText().equals("") && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0))
+                            display2.setText(display2.getText() + ")");
+                        display1.setText("");
+                    }
+
+                    if ((operation.indexOf(lastSymb) != -1 && !display1.getText().equals(""))  && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0)) {
                         display2.setText(display2.getText() + display1.getText() + ")");
-                    display1.setText("");
+                        display1.setText("");
+                    }
+
+                    display1.setText(display1.getText());
                     display1.requestFocus();
                 }
-
 /*(*/
                 if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_9) {
-                    if ((display2.getText().equals("")) || (lastSymb.equals("(")) || "+-*/".indexOf(lastSymb) != -1) {
+                    if ((display2.getText().equals("")) || (lastSymb.equals("(")) || operation.indexOf(lastSymb) != -1) {
                         display2.setText(display2.getText() + "(");
                     } else {
                         if (!geo.isDelimiter(lastSymb)) {
                             int i = indLastSymb;
-                            while ("+-*/".indexOf(lastSymb) == -1) {
+                            while (operation.indexOf(lastSymb) == -1) {
                                 i--;
                             }
                             display2.setText(display2.getText().substring(0, i) + "(" + display2.getText().substring(i + 1, indLastSymb));
@@ -403,63 +347,7 @@ public class CalcPanel extends JFrame {
 
 /*Enter*/
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (enterFlag) {
-                        display2.setText("");
-                        display1.setText("");
-                        display1.setFont(new Font("Tahoma", 0, 20));
-                        enterFlag = false;
-                    }
-                    if (!display2.getText().equals("")) {
-                        indLastSymb = display2.getText().length() - 1;
-                        lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
-                    }
-
-                    if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb.equals("/")) {
-                        if (Double.valueOf(display1.getText()) == 0) {
-                            display2.setText("");
-                            ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
-                            display1.setFont(new Font("Tahoma", 0, 14));
-                            display1.setText("Деление на ноль невозможно");
-                            ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter1());
-                            return;
-                        }
-                    }
-
-                    if (!display1.getText().equals("") || lastSymb.equals(")")) {
-                        if (display1.getText() != "") {
-                            display2.setText(display2.getText() + display1.getText());
-                        }
-
-                        if (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0) {
-                            for (int j = 1; j == countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")"); j++) {
-                                display2.setText(display2.getText() + ")");
-                            }
-                        }
-
-                        if (display2.getText() != "") {
-                            CalcExpression calc = new CalcExpression();//"(50-5.3)-80");
-                            String postnot = geo.ParseExpression(display2.getText()); //Преобразовываем выражение в постфиксную запись
-
-                            double result = calc.CalcExpression(postnot); //Решаем полученное выражение
-
-                            System.out.println(postnot);
-                            System.out.println(result); //Возвращаем результат
-
-                            String answer;
-                            if (String.valueOf(result).length() > 15) {
-                                DecimalFormat df = new DecimalFormat("0.##########E0");
-                                answer = String.valueOf(df.format(result)).replaceAll(",", ".");
-                            } else
-                                answer = String.valueOf(result);
-
-                            System.out.print(String.valueOf(answer.replaceAll(",", ".")));
-                            ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
-                            display1.setText(String.valueOf(answer.replaceAll(",", ".")));
-                            enterFlag = true;
-                            display1.requestFocus();
-                            ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter1());
-                        }
-                    }
+                    pressEnter(display1, display2);
                 }
 
 /*.*/
@@ -569,6 +457,68 @@ public class CalcPanel extends JFrame {
         }
         display1.setText("");
         display1.requestFocus();
+    }
+
+    public void pressEnter(JTextField display1, JTextField display2) {
+        if (enterFlag) {
+            display2.setText("");
+            display1.setText("");
+            display1.setFont(new Font("Tahoma", 0, 20));
+            enterFlag = false;
+        }
+
+        if (!display2.getText().equals("")) {
+            indLastSymb = display2.getText().length() - 1;
+            lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
+        }
+
+        if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb.equals("/")) {
+            if (Double.valueOf(display1.getText()) == 0) {
+                display2.setText("");
+                ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
+                display1.setFont(new Font("Tahoma", 0, 14));
+                display1.setText("Деление на ноль невозможно");
+                ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter1());
+                return;
+            }
+        }
+
+        if (!display1.getText().equals("") || lastSymb.equals(")")) {
+            if (display1.getText() != "") {
+                display2.setText(display2.getText() + display1.getText());
+            }
+
+            if (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0) {
+                int k = countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")");
+                for (int j = 0; j < k; j++) {
+                    display2.setText(display2.getText() + ")");
+                }
+            }
+
+            if (display2.getText() != "") {
+                CalcExpression calc = new CalcExpression();//"(50-5.3)-80");
+                String postnot = geo.ParseExpression(display2.getText()); //Преобразовываем выражение в постфиксную запись
+
+                double result = calc.CalcExpression(postnot); //Решаем полученное выражение
+
+                System.out.println(postnot);
+                System.out.println(result); //Возвращаем результат
+
+                String answer;
+                if (String.valueOf(result).length() > 15) {
+                    DecimalFormat df = new DecimalFormat("0.##########E0");
+                    answer = String.valueOf(df.format(result)).replaceAll(",", ".");
+                } else
+                    answer = String.valueOf(result);
+
+                System.out.print(String.valueOf(answer.replaceAll(",", ".")));
+                ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
+                display1.setText(String.valueOf(answer.replaceAll(",", ".")));
+                enterFlag = true;
+                display1.requestFocus();
+                ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter1());
+            }
+        }
     }
 
     public static int countSymb(String text, String symb) {
