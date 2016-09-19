@@ -380,17 +380,14 @@ public class CalcPanel extends JFrame {
 /***/           if (e.getKeyCode() == KeyEvent.VK_MULTIPLY) {
                     pressOper("*", display1, display2);
                 }
-
 /*-*/
                 if (e.getKeyCode() == KeyEvent.VK_SUBTRACT) {
                     pressOper("-", display1, display2);
                 }
-
 /*Enter*/
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     pressEnter(display1, display2);
                 }
-
 /*.*/
                 if (e.getKeyCode() == KeyEvent.VK_DECIMAL) {
                     if (display1.getText().indexOf(".") == -1) {
@@ -401,7 +398,6 @@ public class CalcPanel extends JFrame {
                         display1.requestFocus();
                     }
                 }
-
 /*digit*/
                 if (e.getKeyCode() == KeyEvent.VK_NUMPAD0 || e.getKeyCode() == KeyEvent.VK_NUMPAD1 || e.getKeyCode() == KeyEvent.VK_NUMPAD2 || e.getKeyCode() == KeyEvent.VK_NUMPAD3 || e.getKeyCode() == KeyEvent.VK_NUMPAD4 || e.getKeyCode() == KeyEvent.VK_NUMPAD5 || e.getKeyCode() == KeyEvent.VK_NUMPAD6 || e.getKeyCode() == KeyEvent.VK_NUMPAD7 || e.getKeyCode() == KeyEvent.VK_NUMPAD8 || e.getKeyCode() == KeyEvent.VK_NUMPAD9) {
                     if (enterFlag || display1.getText().equals("Деление на ноль невозможно")) {
