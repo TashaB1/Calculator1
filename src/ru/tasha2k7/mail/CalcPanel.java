@@ -30,7 +30,7 @@ public class CalcPanel extends JFrame {
         bag.weightx = 0.5;
         bag.weighty = 0.5;
         bag.ipady = 10;
-        bag.ipadx = 10;
+        bag.ipadx = 12;
 
         bag.insets = new Insets(2, 2, 0, 2);  // отступы
         JTextField display2 = new JTextField();
@@ -56,60 +56,75 @@ public class CalcPanel extends JFrame {
         ((AbstractDocument) display2.getDocument()).setDocumentFilter(new Filter2());
 
         bag.gridwidth = 1;
-        bag.ipady = 20;
+        bag.ipady = 15;
         bag.insets = new Insets(2, 2, 2, 2);  // отступы
         JButton btnBackSpace = new JButton("←");
         bag.gridx = 0;
         bag.gridy = 2;
         panel.add(btnBackSpace, bag);
 
-        JButton btnDiv = new JButton("/");
+        JButton btnCE = new JButton("CE");
         bag.gridx = 1;
         bag.gridy = 2;
+        panel.add(btnCE, bag);
+
+        JButton btnC = new JButton("C ");
+        bag.gridx = 2;
+        bag.gridy = 2;
+        panel.add(btnC, bag);
+
+        JButton btnPercent = new JButton("%");
+        bag.gridx = 0;
+        bag.gridy = 3;
+        panel.add(btnPercent, bag);
+
+        JButton btnDiv = new JButton("/");
+        bag.gridx = 1;
+        bag.gridy = 3;
         panel.add(btnDiv, bag);
 
         JButton btnMult = new JButton("*");
         bag.gridx = 2;
-        bag.gridy = 2;
+        bag.gridy = 3;
         panel.add(btnMult, bag);
 
         JButton btnSub = new JButton("-");
         bag.gridx = 3;
-        bag.gridy = 2;
+        bag.gridy = 3;
         panel.add(btnSub, bag);
 
         JButton btn7 = new JButton("7");
         bag.gridx = 0;
-        bag.gridy = 3;
+        bag.gridy = 4;
         panel.add(btn7, bag);
 
         JButton btn8 = new JButton("8");
         bag.gridx = 1;
-        bag.gridy = 3;
+        bag.gridy = 4;
         panel.add(btn8, bag);
 
         JButton btn9 = new JButton("9");
         bag.gridx = 2;
-        bag.gridy = 3;
+        bag.gridy = 4;
         panel.add(btn9, bag);
 
         JButton btn4 = new JButton("4");
         bag.gridx = 0;
-        bag.gridy = 4;
+        bag.gridy = 5;
         panel.add(btn4, bag);
 
         JButton btn5 = new JButton("5");
         bag.gridx = 1;
-        bag.gridy = 4;
+        bag.gridy = 5;
         panel.add(btn5, bag);
 
         JButton btn6 = new JButton("6");
         bag.gridx = 2;
-        bag.gridy = 4;
+        bag.gridy = 5;
         panel.add(btn6, bag);
 
         JButton btnAdd = new JButton("+");
-        bag.gridy = 3;
+        bag.gridy = 4;
         bag.gridheight = 2;
         bag.gridx = 3;
         panel.add(btnAdd, bag);
@@ -117,33 +132,33 @@ public class CalcPanel extends JFrame {
         bag.gridheight = 1;
         JButton btn1 = new JButton("1");
         bag.gridx = 0;
-        bag.gridy = 5;
+        bag.gridy = 6;
         panel.add(btn1, bag);
 
         JButton btn2 = new JButton("2");
         bag.gridx = 1;
-        bag.gridy = 5;
+        bag.gridy = 6;
         panel.add(btn2, bag);
 
         JButton btn3 = new JButton("3");
         bag.gridx = 2;
-        bag.gridy = 5;
+        bag.gridy = 6;
         panel.add(btn3, bag);
 
         JButton btn0 = new JButton("0");
         bag.gridx = 0;
         bag.gridwidth = 2;
-        bag.gridy = 6;
+        bag.gridy = 7;
         panel.add(btn0, bag);
 
         bag.gridwidth = 1;
         JButton btnDot = new JButton(".");
         bag.gridx = 2;
-        bag.gridy = 6;
+        bag.gridy = 7;
         panel.add(btnDot, bag);
 
         JButton btnEnter = new JButton("=");
-        bag.gridy = 5;
+        bag.gridy = 6;
         bag.gridheight = 2;
         bag.gridx = 3;
         panel.add(btnEnter, bag);
