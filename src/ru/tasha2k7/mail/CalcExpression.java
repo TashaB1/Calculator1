@@ -3,9 +3,6 @@ package ru.tasha2k7.mail;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-/**
- * Created by Wolfsjunge on 16.09.2016.
- */
 class CalcExpression {
     public double CalcExpression(String postnot) {
         Stack<Double> stack = new Stack<Double>();
@@ -14,20 +11,28 @@ class CalcExpression {
 
         while (tokenizer.hasMoreTokens()) { //пока в строке еще есть слова
             word = tokenizer.nextToken(); //возвращает в виде строки следующее слово
+            try {
+                if (word.equals("+")) stack.push(stack.pop() + stack.pop());
+                else if (word.equals("-")) {
+                    Double b = stack.pop(), a = stack.pop();
+                    stack.push(a - b);
+                } else if (word.equals("*")) stack.push(stack.pop() * stack.pop());
+                else if (word.equals("/")) {
+                    Double b = stack.pop(), a = stack.pop();
+                    Double c = a / b;
+                    stack.push(c);
+                } else if (word.equals("%")) {
+                    Double b = stack.pop(), a = stack.peek();
+                    stack.push(a * b / 100);
+                } else if (word.equals("^")) {
+                    Double b = stack.pop(), a = stack.pop();
+                    stack.push(Math.pow(a, b));
+                } else stack.push(Double.valueOf(word));
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            if (word.equals("+")) stack.push(stack.pop() + stack.pop());
-            else if (word.equals("-")) {
-                Double b = stack.pop(), a = stack.pop();
-                stack.push(a - b);
-            } else if (word.equals("*")) stack.push(stack.pop() * stack.pop());
-            else if (word.equals("/")) {
-                Double b = stack.pop(), a = stack.pop();
-                Double c = a / b;
-                stack.push(c);
-            } else if (word.equals("%")) {
-                Double b = stack.pop(), a = stack.peek();
-                stack.push(a*b/100);
-            } else stack.push(Double.valueOf(word));
         }
         return stack.pop();
     }

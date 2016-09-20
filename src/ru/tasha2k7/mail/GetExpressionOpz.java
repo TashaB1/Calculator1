@@ -3,12 +3,8 @@ package ru.tasha2k7.mail;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-/**
- * Created by Wolfsjunge on 16.09.2016.
- */
-
 class GetExpressionOpz {
-    private static String delimiters = "%*/+-() ";
+    private static String delimiters = "%^*/+-() ";
 
     public static boolean isDelimiter(String delim) {
         if (delimiters.indexOf(delim) != -1)
@@ -21,7 +17,8 @@ class GetExpressionOpz {
         if (oper.equals("+") || oper.equals("-")) return 2;
         if (oper.equals("*") || oper.equals("/")) return 3;
         if (oper.equals("%")) return 4;
-        return 5;
+        if (oper.equals("^")) return 5;
+        return 6;
     }
 
     public static String ParseExpression(String infnot) {

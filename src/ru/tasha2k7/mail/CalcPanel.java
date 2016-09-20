@@ -9,15 +9,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 
-/**
- * Created by Wolfsjunge on 10.09.2016.
- */
 public class CalcPanel extends JFrame {
     boolean enterFlag = false;
-    public int indLastSymb = 0;
-    public String lastSymb;
     public GetExpressionOpz geo = new GetExpressionOpz();
-    String operation = "%*/+-";
+    String operation = "%^*/+-";
 
     public CalcPanel() {
         // Создание окна
@@ -72,6 +67,11 @@ public class CalcPanel extends JFrame {
         bag.gridx = 2;
         bag.gridy = 2;
         panel.add(btnC, bag);
+
+        JButton btnInvolution = new JButton("y×");
+        bag.gridx = 3;
+        bag.gridy = 2;
+        panel.add(btnInvolution, bag);
 
         JButton btnPercent = new JButton("%");
         bag.gridx = 0;
@@ -298,6 +298,15 @@ public class CalcPanel extends JFrame {
             }
         });
 
+        btnInvolution.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!display1.getText().equals("")&&(operation.indexOf(lastSymb(display1))==-1)) {
+                    display1.setText(display1.getText() + "^");
+                }
+            }
+        });
+
         btnBackSpace.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -322,13 +331,9 @@ public class CalcPanel extends JFrame {
         display1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (!display2.getText().equals("")) {
-                    indLastSymb = display2.getText().length() - 1;
-                    lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
-                }
 /*)*/
                 if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_0) {
-                    if (!display2.getText().equals("") && lastSymb.equals(")") && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0)) {
+                    if (!display2.getText().equals("") && lastSymb(display2).equals(")") && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0)) {
                         if (!display1.getText().equals(""))
                             display2.setText(display2.getText() + "*" + display1.getText() + ")");
                         else
@@ -336,7 +341,7 @@ public class CalcPanel extends JFrame {
                         display1.setText("");
                     }
 
-                    if ((operation.indexOf(lastSymb) != -1 && !display1.getText().equals("")) && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0)) {
+                    if ((operation.indexOf(lastSymb(display2)) != -1 && !display1.getText().equals("")) && (countSymb(display2.getText(), "(") - countSymb(display2.getText(), ")") > 0)) {
                         display2.setText(display2.getText() + display1.getText() + ")");
                         display1.setText("");
                     }
@@ -346,21 +351,28 @@ public class CalcPanel extends JFrame {
                 }
 /*(*/
                 if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_9) {
-                    if ((display2.getText().equals("")) || (lastSymb.equals("(")) || operation.indexOf(lastSymb) != -1) {
+                    if ((display2.getText().equals("")) || (lastSymb(display2).equals("(")) || operation.indexOf(lastSymb(display2)) != -1) {
                         display2.setText(display2.getText() + "(");
                     } else {
-                        if (!geo.isDelimiter(lastSymb)) {
-                            int i = indLastSymb;
-                            while (operation.indexOf(lastSymb) == -1) {
+                        if (!geo.isDelimiter(lastSymb(display2))) {
+                            int i = display2.getText().length() - 1;
+                            while (operation.indexOf(lastSymb(display2)) == -1) {
                                 i--;
                             }
-                            display2.setText(display2.getText().substring(0, i) + "(" + display2.getText().substring(i + 1, indLastSymb));
+                            display2.setText(display2.getText().substring(0, i) + "(" + display2.getText().substring(i + 1, display2.getText().length() - 1));
                         }
                     }
                 }
+/*%*/
                 if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_5) {
                     if (!display1.getText().equals("") && !display2.getText().equals("") && display1.getText().indexOf("%") == -1) {
                         display1.setText(display1.getText() + "%");
+                    }
+                }
+/*^*/
+                if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_6) {
+                    if (!display1.getText().equals("") && (operation.indexOf(lastSymb(display1)) == -1)) {
+                        display1.setText(display1.getText() + "^");
                     }
                 }
 /*+*/
@@ -376,8 +388,8 @@ public class CalcPanel extends JFrame {
                 if (e.getKeyCode() == KeyEvent.VK_DIVIDE) {
                     pressOper("/", display1, display2);
                 }
-
-/***/           if (e.getKeyCode() == KeyEvent.VK_MULTIPLY) {
+/***/
+                if (e.getKeyCode() == KeyEvent.VK_MULTIPLY) {
                     pressOper("*", display1, display2);
                 }
 /*-*/
@@ -463,12 +475,7 @@ public class CalcPanel extends JFrame {
             return;
         }
 
-        if (!display2.getText().equals("")) {
-            indLastSymb = display2.getText().length() - 1;
-            lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
-        }
-
-        if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb.equals("/")) {
+        if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb(display2).equals("/")) {
             if (Double.valueOf(display1.getText()) == 0) {
                 display2.setText("");
                 ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
@@ -479,19 +486,24 @@ public class CalcPanel extends JFrame {
             }
         }
 
-        if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb.equals(")"))
+        if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb(display2).equals(")"))
             display2.setText(display2.getText() + "*" + display1.getText() + oper);
-        else if (display1.getText().equals("") && !display2.getText().equals("") && lastSymb.equals(")"))
+        else if (display1.getText().equals("") && !display2.getText().equals("") && lastSymb(display2).equals(")"))
             display2.setText(display2.getText() + oper);
         else if (!display1.getText().equals(""))
             display2.setText(display2.getText() + display1.getText() + oper);
 
         if (oper.equals("-")) {
-            if (display1.getText().equals("") && (display2.getText().equals("") || lastSymb.equals("(")) && display1.getText().indexOf("-") == -1) {
+            if (display1.getText().equals("") && (display2.getText().equals("") || lastSymb(display2).equals("(")) && display1.getText().indexOf("-") == -1) {
                 display2.setText(display2.getText() + "0-" + display1.getText());
                 return;
             }
         }
+
+        if (!display1.getText().equals("") && lastSymb(display1).equals("^")) {
+            display2.setText(display1.getText() + "1" + oper);
+        }
+
         display1.setText("");
         display1.requestFocus();
     }
@@ -504,12 +516,7 @@ public class CalcPanel extends JFrame {
             enterFlag = false;
         }
 
-        if (!display2.getText().equals("")) {
-            indLastSymb = display2.getText().length() - 1;
-            lastSymb = String.valueOf(display2.getText().charAt(indLastSymb));
-        }
-
-        if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb.equals("/")) {
+        if (!display1.getText().equals("") && !display2.getText().equals("") && lastSymb(display2).equals("/")) {
             if (Double.valueOf(display1.getText()) == 0) {
                 display2.setText("");
                 ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
@@ -520,7 +527,7 @@ public class CalcPanel extends JFrame {
             }
         }
 
-        if (!display1.getText().equals("") || lastSymb.equals(")")) {
+        if (!display1.getText().equals("") || lastSymb(display2).equals(")")) {
             if (display1.getText() != "") {
                 display2.setText(display2.getText() + display1.getText());
             }
@@ -530,6 +537,10 @@ public class CalcPanel extends JFrame {
                 for (int j = 0; j < k; j++) {
                     display2.setText(display2.getText() + ")");
                 }
+            }
+
+            if (!display1.getText().equals("") && lastSymb(display1).equals("^")) {
+                display2.setText(display2.getText() + "1");
             }
 
             if (display2.getText() != "") {
@@ -563,5 +574,16 @@ public class CalcPanel extends JFrame {
         for (int i = 0; i < text.length(); i++)
             if (String.valueOf(text.charAt(i)).equals(symb)) count++;
         return count;
+    }
+
+    public static String lastSymb(JTextField display) {
+        String lastSymb;
+        int indLastSymb;
+        if (!display.getText().equals("")) {
+            indLastSymb = display.getText().length() - 1;
+            lastSymb = String.valueOf(display.getText().charAt(indLastSymb));
+            return lastSymb;
+        }
+        return "";
     }
 }
