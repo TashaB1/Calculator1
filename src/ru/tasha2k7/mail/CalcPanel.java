@@ -542,6 +542,15 @@ public class CalcPanel extends JFrame {
             if (!display1.getText().equals("") && lastSymb(display1).equals("^")) {
                 display2.setText(display2.getText() + "1");
             }
+            
+            if (display2.getText().indexOf(operation+operation)==-1) {
+                    display2.setText("");
+                    ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter3());
+                    display1.setFont(new Font("Tahoma", 0, 14));
+                    display1.setText("Выражение некорректно");
+                    ((AbstractDocument) display1.getDocument()).setDocumentFilter(new Filter1());
+                    return;
+            }
 
             if (display2.getText() != "") {
                 CalcExpression calc = new CalcExpression();//"(50-5.3)-80");
